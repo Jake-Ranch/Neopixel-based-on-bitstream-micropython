@@ -1,5 +1,5 @@
 from machine import Pin, bitstream
-from xy2num import *
+
 
 
 class neopixel():#GRB
@@ -9,10 +9,10 @@ class neopixel():#GRB
         self.strip=bytearray([0,0,0]*self.num)
         self.timing=timing
 
-    def fill_rect(self,xynum,x0=0,y0=0,x1=18,y1=18,color=[0,0,0]):#以矩形填充一片区域
+    def fill_rect(self,xy2num,x0=0,y0=0,x1=18,y1=18,color=[0,0,0]):#以矩形填充一片区域
         for x in range(x0,x1):#填充x0-x1
             for y in range(y0,y1):#填充y0-y1
-                led_id=xynum[x+y*18]*3
+                led_id=xy2num[x+y*18]*3
                 self.strip[led_id:led_id+3]=color
         
     def fill(self,color=[0,0,0]):#填充同一种颜色
@@ -28,13 +28,13 @@ class neopixel():#GRB
     def change(self,led_id=0,color=[0,0,0]):
         self.strip[led_id*3:(led_id+1)*3]=bytearray(color)
 
-    def print_word(self,word_dict={'A':[[1, 0], [2, 0]]},word='A',color=[0,0,0],dx=0,dy=0,word_width=5):
+    def print_word(self,word_dict={'A':[[1, 0], [2, 0]]},word='A',color=[0,0,0],dx=0,dy=0,word_width=5,screen_x=18,screen_y=18):
         for w in word:#取出第一个字
             for p in word_dict[w]:#取出该字的点
                 x=p[0]+dx
                 y=p[1]+dy
-                if 0<x<18 and 0<y<18:#不能超出屏幕范围
-                    led_id=xynum[x+y*18]*3
+                if 0<x<screen_x and 0<y<screen_y:#不能超出屏幕范围
+                    led_id=xy2num[x+y*screen_x]*3
                     self.strip[led_id:led_id+3]=bytearray(color)
             dx+=word_width
 
@@ -44,9 +44,8 @@ class neopixel():#GRB
 
 if __name__=='__main__':
     import time
-    from clock import *
     from base_color import *
-
+    from xy2num import *
 
     neo=neopixel()
     neo.clear()

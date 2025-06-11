@@ -1,4 +1,4 @@
-# Drive Ws2812 by bitstream 
+# Drive WS2812 by bitstream 
 Neopixel based on bitstream in micropython
 
 ## MyNeopixel.py：
